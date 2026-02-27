@@ -25,12 +25,20 @@ export async function POST(
   {
     code: affiliate.code,
     type: "standard",
+    status: "active",
     is_automatic: false,
     application_method: {
       type: "percentage",
       value: affiliate.commission_rate,
       target_type: "order",
     },
+    rules: [
+      {
+        attribute: "region.id", 
+        operator: "eq",
+        values: [affiliate.country], // or region ID/code
+      },
+    ],
   },
 ])
 
