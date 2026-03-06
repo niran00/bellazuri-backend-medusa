@@ -25,7 +25,17 @@
     "@medusajs/admin-sdk": "2.12.5",
     "@medusajs/cli": "2.12.5",
     "@medusajs/framework": "2.12.5",
+<<<<<<< Updated upstream
     "@medusajs/medusa": "2.12.5"
+=======
+    "@medusajs/medusa": "2.12.5",
+    "axios": "^1.13.6",
+    "csv-parser": "^3.2.0",
+    "fs": "^0.0.1-security",
+    "medusa-payment-dpopay": "file:plugins/medusa-payment-dpopay",
+    "medusa-payment-yoco": "^1.2.0",
+    "stripe": "^20.4.0"
+>>>>>>> Stashed changes
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.12.5",

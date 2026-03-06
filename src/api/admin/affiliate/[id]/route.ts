@@ -32,11 +32,11 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
 })
 
   // 🎯 Filter orders by affiliate promo code
-  const affiliateOrdersRaw = orders.filter((order: any) =>
-    (order.promotions || []).some(
-      (p: any) => p.code === affiliate.code
-    )
+  const affiliateOrdersRaw = (orders || []).filter((order: any) =>
+  (order?.promotions || []).some(
+    (p: any) => p?.code === affiliate.code
   )
+)
 
   // 🔥 Transform orders for frontend
   const transformedOrders = affiliateOrdersRaw.map((order: any) => {
