@@ -1992,7 +1992,7 @@
   resolved "https://registry.npmjs.org/@medusajs/file/-/file-2.12.5.tgz"
   integrity sha512-57J7XanzKNJ8fU+BEu9eyy1Ll6BN9zI7wkSPff5L5S3O4xxFr5yEA4u3YzTEc1+FQK7a2UbzaWgMn2TPMUZK0g==
 
-"@medusajs/framework@2.12.5":
+"@medusajs/framework@^2.0.0", "@medusajs/framework@2.12.5":
   version "2.12.5"
   resolved "https://registry.npmjs.org/@medusajs/framework/-/framework-2.12.5.tgz"
   integrity sha512-6gLrXzP4z+SmUXm377iHj2Fw4d2p+qTYmW4o6lXcpIsEiD6HAxu90VzSQhNvU3xbrFIubtxi+P67bAfaVkj8Bg==
@@ -7495,6 +7495,11 @@ fs.realpath@^1.0.0:
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
+fsevents@^2.3.2, fsevents@~2.3.2, fsevents@~2.3.3:
+  version "2.3.3"
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
+  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
+
 function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz"
@@ -8854,6 +8859,19 @@ media-typer@0.3.0:
   resolved "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz"
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
+"medusa-payment-dpopay@file:plugins/medusa-payment-dpopay":
+  version "1.0.0"
+  resolved "file:plugins/medusa-payment-dpopay"
+  dependencies:
+    "@medusajs/framework" "^2.0.0"
+
+medusa-payment-yoco@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/medusa-payment-yoco/-/medusa-payment-yoco-1.2.0.tgz"
+  integrity sha512-xoENCsR/9NOg1NaYZYCENeUQudvWLvQFyyCcknHjwYr4uXLUrvDQtxWVuUFneU0ZrjGNuTIrWWmd6cYm3mJbLw==
+  dependencies:
+    zod "^4.3.5"
+
 merge-descriptors@1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.3.tgz"
@@ -9484,7 +9502,22 @@ picocolors@^1.1.0, picocolors@^1.1.1:
   resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz"
   integrity sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==
 
-picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3, picomatch@^2.3.1, picomatch@3.x:
+picomatch@^2.0.4:
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
+  integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
+
+picomatch@^2.2.1:
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
+  integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
+
+picomatch@^2.2.3:
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
+  integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
+
+picomatch@^2.3.1:
   version "2.3.1"
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
@@ -10566,6 +10599,11 @@ stripe@^15.5.0:
     "@types/node" ">=8.1.0"
     qs "^6.11.0"
 
+stripe@^20.4.0:
+  version "20.4.0"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-20.4.0.tgz"
+  integrity sha512-F/aN1IQ9vHmlyLNi3DkiIbyzQb6gyBG0uYFd/VrEVQSc9BLtlgknPUx0EvzZdBMRLFuRaPFIFd7Mxwtg7Pbwzw==
+
 stripe@19.1.0:
   version "19.1.0"
   resolved "https://registry.npmjs.org/stripe/-/stripe-19.1.0.tgz"
@@ -10855,7 +10893,7 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^5.6.2, "typescript@>= 4.5.5 < 6", typescript@>=2.7:
+typescript@^5.0.0, typescript@^5.6.2, "typescript@>= 4.5.5 < 6", typescript@>=2.7:
   version "5.9.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz"
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
@@ -11231,3 +11269,8 @@ zod@^3.25.0, zod@3.25.76:
   version "3.25.76"
   resolved "https://registry.npmjs.org/zod/-/zod-3.25.76.tgz"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
+
+zod@^4.3.5:
+  version "4.3.6"
+  resolved "https://registry.npmjs.org/zod/-/zod-4.3.6.tgz"
+  integrity sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==
