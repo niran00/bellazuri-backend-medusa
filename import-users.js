@@ -1,42 +1,20 @@
 const fs = require("fs")
 const csv = require("csv-parser")
 const axios = require("axios")
+const crypto = require("crypto")
 
-const MEDUSA_URL = "http://localhost:9000"
+const BASE_URL = "http://localhost:9000"
+const ADMIN_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3Rvcl9pZCI6InVzZXJfMDFLRkdTVzA0VFY1VkRHU0NXMlg5RDEzUDAiLCJhY3Rvcl90eXBlIjoidXNlciIsImF1dGhfaWRlbnRpdHlfaWQiOiJhdXRoaWRfMDFLRkdTVzAzNkZQWjgxOEc5ME5TRkpIUTgiLCJhcHBfbWV0YWRhdGEiOnsidXNlcl9pZCI6InVzZXJfMDFLRkdTVzA0VFY1VkRHU0NXMlg5RDEzUDAifSwidXNlcl9tZXRhZGF0YSI6e30sImlhdCI6MTc3MzA4MTkwMSwiZXhwIjoxNzczMTY4MzAxfQ.EH3Lp0Sf47VDpMUIPALnlos_FEhNSFNBg79HvaC_Xco"
 
-const ADMIN_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3Rvcl9pZCI6InVzZXJfMDFLRkdTVzA0VFY1VkRHU0NXMlg5RDEzUDAiLCJhY3Rvcl90eXBlIjoidXNlciIsImF1dGhfaWRlbnRpdHlfaWQiOiJhdXRoaWRfMDFLRkdTVzAzNkZQWjgxOEc5ME5TRkpIUTgiLCJhcHBfbWV0YWRhdGEiOnsidXNlcl9pZCI6InVzZXJfMDFLRkdTVzA0VFY1VkRHU0NXMlg5RDEzUDAiLCJyb2xlcyI6W119LCJ1c2VyX21ldGFkYXRhIjp7fSwiaWF0IjoxNzcyNzgwNzYwLCJleHAiOjE3NzI4NjcxNjB9.BdNAhPArowAmxtbTRmy9xU8_uWZ_xGz0nWQFXHCCuQ4"
+const PUBLISHABLE_KEY = "pk_c6fd4c1a78bf948a455da4ef0e645ef88e4880b0ffbdd5eb5e9aaf699016f5a4"
+
+const sleep = (ms) => new Promise(r => setTimeout(r, ms))
+
+function randomPassword() {
+  return crypto.randomBytes(10).toString("hex")
+}
 
 const users = []
-const addressCounter = {}
-const processedCustomers = {}
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-
-const DEFAULT_COUNTRY = "ke"
-
-async function deleteExistingAddresses(customerId) {
-
-  const res = await axios.get(
-    `${MEDUSA_URL}/admin/customers/${customerId}`,
-    {
-      headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-    }
-  )
-
-  const addresses = res.data.customer.addresses || []
-
-  for (const addr of addresses) {
-
-    await axios.delete(
-      `${MEDUSA_URL}/admin/customers/${customerId}/addresses/${addr.id}`,
-      {
-        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-      }
-    )
-
-  }
-
-}
 
 fs.createReadStream("wp-users-addresses.csv")
 .pipe(csv())
@@ -45,86 +23,82 @@ fs.createReadStream("wp-users-addresses.csv")
 
   for (const user of users) {
 
+    const email = user.user_email?.trim()
+    if (!email) continue
+
+    const password = randomPassword()
+
     try {
 
-      if (!user.user_email) continue
+      let token
 
-      const email = user.user_email.trim()
-      let customerId
-
-      // Create customer
+      // 1️⃣ create identity
       try {
 
-        const res = await axios.post(
-          `${MEDUSA_URL}/admin/customers`,
-          {
-            email: email,
-            first_name: user.first_name || "",
-            last_name: user.last_name || ""
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${ADMIN_TOKEN}`
-            }
-          }
+        const reg = await axios.post(
+          `${BASE_URL}/auth/customer/emailpass/register`,
+          { email, password }
         )
 
-        customerId = res.data.customer.id
-        console.log("Customer created:", email)
+        token = reg.data.token
 
-      } catch (createErr) {
+      } catch (err) {
 
-        if (createErr.response?.data?.message?.includes("exists")) {
+        // identity exists → login
+        const login = await axios.post(
+          `${BASE_URL}/auth/customer/emailpass/login`,
+          { email, password }
+        )
 
-          console.log("Customer exists:", email)
+        token = login.data.token
 
-          const search = await axios.get(
-            `${MEDUSA_URL}/admin/customers?email=${email}`,
-            {
-              headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-            }
-          )
+      }
 
-          customerId = search.data.customers[0]?.id
+      if (!token) {
+        console.log("Auth failed:", email)
+        continue
+      }
 
-        } else {
-          throw createErr
+      // 2️⃣ create customer profile
+      const customer = await axios.post(
+        `${BASE_URL}/store/customers`,
+        {
+          email,
+          first_name: user.first_name || "",
+          last_name: user.last_name || "",
+          phone: user.phone || "",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-publishable-api-key": PUBLISHABLE_KEY
+          }
         }
+      )
 
-      }
+      const customerId = customer.data.customer.id
 
-      if (!customerId) continue
+      console.log("Registered customer:", email)
 
-      // Delete addresses once per customer
-      if (!processedCustomers[customerId]) {
+      // save passwords
+      fs.appendFileSync("/tmp/customer-passwords.csv", `${email},${password}\n`)
 
-        await deleteExistingAddresses(customerId)
-
-        processedCustomers[customerId] = true
-        addressCounter[customerId] = 1
-
-      }
-
-      // Add address
-      if (user.address_1 && user.city) {
-
-        const addressName = `Address ${addressCounter[customerId]++}`
+      // 3️⃣ add address
+     
 
         await axios.post(
-          `${MEDUSA_URL}/admin/customers/${customerId}/addresses`,
+          `${BASE_URL}/admin/customers/${customerId}/addresses`,
           {
-            address_name: addressName,
+            address_name: "Address 1",
             first_name: user.first_name || "",
             last_name: user.last_name || "",
-            address_1: user.address_1.trim(),
+            address_1: user.address_1,
             address_2: user.address_2 || "",
-            city: user.city.trim(),
-            postal_code: user.postal_code || "",
+            city: user.city,
             province: user.province || "",
-            country_code: (user.country || DEFAULT_COUNTRY).toLowerCase(),
-            phone: user.phone || "",
-            is_default_shipping: true,
-            is_default_billing: true,
+            postal_code: user.postal_code || "",
+            country_code: user.country || "",
+            phone: user.phone || ""
           },
           {
             headers: {
@@ -133,28 +107,19 @@ fs.createReadStream("wp-users-addresses.csv")
           }
         )
 
-        console.log(`Address added (${addressName}):`, email)
 
-      }
-
-      await sleep(20)
 
     } catch (err) {
 
-      console.log("Error importing:", user.user_email)
-
-      if (err.response) {
-        console.log("Status:", err.response.status)
-        console.log("Message:", err.response.data?.message)
-        console.log("Full:", JSON.stringify(err.response.data, null, 2))
-      } else {
-        console.log(err.message)
-      }
+      console.log("❌ Import failed:", email)
+      console.log(err.response?.data || err.message)
 
     }
 
+    await sleep(250)
+
   }
 
-  console.log("Import finished.")
+  console.log("✅ Import finished")
 
 })
