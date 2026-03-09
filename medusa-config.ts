@@ -14,8 +14,26 @@ export default defineConfig({
     },
   },
   modules: [
+    
     {
       resolve: "./src/modules/affiliate",
     },
+
+    {
+      resolve: "@medusajs/medusa/notification",
+      options: {
+        providers: [
+          {
+            resolve: "@medusajs/medusa/notification-local",
+            id: "local",
+            options: {
+              channels: ["email"],
+            },
+          },
+        ],
+      },
+    },
+
+
   ],
 })

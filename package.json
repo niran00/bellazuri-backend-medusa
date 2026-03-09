@@ -23,8 +23,10 @@
   },
   "dependencies": {
     "@medusajs/admin-sdk": "2.12.5",
+    "@medusajs/auth": "^2.12.5",
     "@medusajs/cli": "2.12.5",
     "@medusajs/framework": "2.12.5",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     "@medusajs/medusa": "2.12.5"
 =======
@@ -35,6 +37,11 @@
     "medusa-payment-dpopay": "file:plugins/medusa-payment-dpopay",
     "medusa-payment-yoco": "^1.2.0",
     "stripe": "^20.4.0"
+>>>>>>> Stashed changes
+=======
+    "@medusajs/medusa": "2.12.5",
+    "mysql2": "^3.19.0",
+    "nodemailer": "^8.0.2"
 >>>>>>> Stashed changes
   },
   "devDependencies": {
