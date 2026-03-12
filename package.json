@@ -1,5 +1,5 @@
 {
-  "name": "my-medusa-store",
+  "name": "medusa-bellazuri-storebackend",
   "version": "0.0.1",
   "description": "A starter for Medusa projects.",
   "author": "Medusa (https://medusajs.com)",
@@ -25,7 +25,10 @@
     "@medusajs/admin-sdk": "2.12.5",
     "@medusajs/cli": "2.12.5",
     "@medusajs/framework": "2.12.5",
-    "@medusajs/medusa": "2.12.5"
+    "@medusajs/medusa": "2.12.5",
+    "medusa-payment-dpopay": "file:plugins/medusa-payment-dpopay",
+    "medusa-payment-yoco": "^1.2.0",
+    "stripe": "^20.4.0"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.12.5",
