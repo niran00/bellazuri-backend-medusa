@@ -27,6 +27,7 @@
     "@medusajs/framework": "2.12.5",
     "@medusajs/medusa": "2.12.5",
     "medusa-payment-dpopay": "file:plugins/medusa-payment-dpopay",
+    "medusa-payment-paystack": "^2.1.0",
     "medusa-payment-yoco": "^1.2.0",
     "stripe": "^20.4.0"
   },

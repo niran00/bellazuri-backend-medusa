@@ -2,13 +2,14 @@ import { loadEnv, defineConfig } from "@medusajs/framework/utils"
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd())
 
+
 export default defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     http: {
-      storeCors: process.env.STORE_CORS,
+      storeCors: process.env.STORE_CORS || "https://paleozoologic-nonmodifying-danny.ngrok-free.dev",
       adminCors: process.env.ADMIN_CORS,
-      authCors: process.env.AUTH_CORS,
+      authCors: process.env.AUTH_CORS || "https://paleozoologic-nonmodifying-danny.ngrok-free.dev",
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     },
@@ -46,7 +47,14 @@ export default defineConfig({
               companyToken: "8D3DA73D-9D7F-4E09-96D4-3D44E7A83EA3",
               serviceType: "5525"
             }
-          }
+          },
+          
+          {
+            resolve: "medusa-payment-paystack",
+            options: {
+              secret_key: "sk_test_47a5c48c4effae314c58d6cc190a6b87cc62a3f6",
+            } satisfies import("medusa-payment-paystack").PluginOptions,
+          },
           
         ],
       },
