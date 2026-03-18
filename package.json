@@ -22,17 +22,22 @@
     "test:unit": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"
   },
   "dependencies": {
-    "@medusajs/admin-sdk": "2.12.5",
-    "@medusajs/cli": "2.12.5",
-    "@medusajs/framework": "2.12.5",
-    "@medusajs/medusa": "2.12.5",
+    "@medusajs/admin-sdk": "2.13.3",
+    "@medusajs/auth": "^2.13.3",
+    "@medusajs/cli": "2.13.3",
+    "@medusajs/framework": "2.13.3",
+    "@medusajs/medusa": "2.13.3",
+    "axios": "^1.13.6",
+    "csv-parser": "^3.2.0",
+    "fs": "^0.0.1-security",
     "medusa-payment-dpopay": "file:plugins/medusa-payment-dpopay",
-    "medusa-payment-paystack": "^2.1.0",
     "medusa-payment-yoco": "^1.2.0",
-    "stripe": "^20.4.0"
+    "stripe": "^20.4.0",
+    "mysql2": "^3.19.0",
+    "nodemailer": "^8.0.2"
   },
   "devDependencies": {
-    "@medusajs/test-utils": "2.12.5",
+    "@medusajs/test-utils": "2.13.3",
     "@swc/core": "^1.7.28",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.13",

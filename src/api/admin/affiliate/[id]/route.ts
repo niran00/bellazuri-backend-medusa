@@ -37,6 +37,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
       (p: any) => p?.code === affiliate.code
     )
   )
+)
 
   // 🔥 Transform orders for frontend
   const transformedOrders = affiliateOrdersRaw.map((order: any) => {
