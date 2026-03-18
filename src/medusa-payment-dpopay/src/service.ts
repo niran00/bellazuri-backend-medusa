@@ -33,8 +33,8 @@ export default class DpoPayProvider extends AbstractPaymentProvider<DpoOptions> 
                 <PaymentAmount>${amount}</PaymentAmount>
                 <PaymentCurrency>${currency_code}</PaymentCurrency>
                 <CompanyRef>medusa-${Date.now()}</CompanyRef>
-                <RedirectURL>https://yourstore.com/complete</RedirectURL>
-                <BackURL>https://yourstore.com/cancel</BackURL>
+                <RedirectURL>https://paleozoologic-nonmodifying-danny.ngrok-free.dev/ng-en/checkout/order-received</RedirectURL>
+                <BackURL>https://paleozoologic-nonmodifying-danny.ngrok-free.dev/ng-en/checkout/</BackURL>
                 <ServiceType>${service}</ServiceType>
             </Transaction>
           </API3G>
