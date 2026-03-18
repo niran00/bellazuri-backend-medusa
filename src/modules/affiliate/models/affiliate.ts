@@ -5,7 +5,11 @@ export const Affiliate = model.define("affiliate", {
 
   customer_id: model.text().index(),
 
+  username: model.text().unique(),
+  
   email: model.text().unique(),
+
+  country: model.text(),
 
   code: model.text().unique(),
 

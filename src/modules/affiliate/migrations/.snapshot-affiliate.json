@@ -24,8 +24,26 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
         "email": {
           "name": "email",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "country": {
+          "name": "country",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -120,6 +138,15 @@
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_affiliate_customer_id\" ON \"affiliate\" (\"customer_id\") WHERE deleted_at IS NULL"
+        },
+        {
+          "keyName": "IDX_affiliate_username_unique",
+          "columnNames": [],
+          "composite": false,
+          "constraint": false,
+          "primary": false,
+          "unique": false,
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_affiliate_username_unique\" ON \"affiliate\" (\"username\") WHERE deleted_at IS NULL"
         },
         {
           "keyName": "IDX_affiliate_email_unique",

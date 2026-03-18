@@ -6,40 +6,47 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const affiliateService = req.scope.resolve(AFFILIATE_MODULE)
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const { id } = req.params
+  // 🔐 Get logged in customer
+  const customerId = req.auth_context?.actor_id
 
-  const affiliate = await affiliateService.retrieveAffiliate(id)
-
-  if (!affiliate) {
-    return res.status(404).json({ message: "Affiliate not found" })
+  if (!customerId) {
+    return res.status(401).json({ message: "Unauthorized" })
   }
 
-  // 🔎 Get all orders with items + promotions
-  const { data: orders } = await query.graph({
-  entity: "order",
-  fields: [
-    "id",
-    "created_at",
-    "total",
-    "currency_code",
-    "discount_total",
-    "promotions.*",
-    "items.*",
-    "items.title",
-    "items.quantity",
-    "items.total",
-  ],
-})
+  // 🔎 Find affiliate by customer_id
+  const [affiliate] = await affiliateService.listAffiliates({
+    customer_id: customerId,
+  })
 
-  // 🎯 Filter orders by affiliate promo code
+  if (!affiliate) {
+    return res.json({ affiliate: null, orders: [] })
+  }
+
+  // 🔎 Get all orders with promotions + items
+  const { data: orders } = await query.graph({
+    entity: "order",
+    fields: [
+      "id",
+      "created_at",
+      "total",
+      "currency_code",
+      "discount_total",
+      "promotions.*",
+      "items.*",
+      "items.title",
+      "items.quantity",
+      "items.total",
+    ],
+  })
+
+  // 🎯 Filter by affiliate promo code
   const affiliateOrdersRaw = orders.filter((order: any) =>
     (order.promotions || []).some(
       (p: any) => p?.code === affiliate.code
     )
   )
-)
 
-  // 🔥 Transform orders for frontend
+  // 🔥 Transform
   const transformedOrders = affiliateOrdersRaw.map((order: any) => {
     let orderCommissionTotal = 0
 
@@ -79,10 +86,5 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
       commission_rate: affiliate.commission_rate ?? 10,
     },
     orders: transformedOrders,
-    stats: {
-      allTime: { totalSales: 0, totalDiscounts: 0, totalCommission: 0 },
-      thisMonth: { totalSales: 0, totalDiscounts: 0, totalCommission: 0 },
-      lastMonth: { totalSales: 0, totalDiscounts: 0, totalCommission: 0 },
-    },
   })
 }
