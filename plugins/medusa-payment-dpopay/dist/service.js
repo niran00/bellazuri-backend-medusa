@@ -28,8 +28,8 @@ class DpoPayProvider extends utils_1.AbstractPaymentProvider {
     <PaymentCurrency>${currency.toUpperCase()}</PaymentCurrency>
     <CompanyRef>medusa-${Date.now()}</CompanyRef>
     <CompanyRefUnique>1</CompanyRefUnique>
-    <RedirectURL>https://paleozoologic-nonmodifying-danny.ngrok-free.dev/ng-en/checkout/order-received</RedirectURL>
-    <BackURL>https://paleozoologic-nonmodifying-danny.ngrok-free.dev/ng-en/checkout/</BackURL>
+    <RedirectURL>htthttp://13.246.221.62:3000/ug-en/checkout/order-received</RedirectURL>
+    <BackURL>http://13.246.221.62:3000/ug-en/checkout/</BackURL>
   </Transaction>
 
   <Services>
