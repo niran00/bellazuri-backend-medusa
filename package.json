@@ -31,10 +31,11 @@
     "csv-parser": "^3.2.0",
     "fs": "^0.0.1-security",
     "medusa-payment-dpopay": "file:plugins/medusa-payment-dpopay",
+    "medusa-payment-paystack": "^2.1.0",
     "medusa-payment-yoco": "^1.2.0",
-    "stripe": "^20.4.0",
     "mysql2": "^3.19.0",
-    "nodemailer": "^8.0.2"
+    "nodemailer": "^8.0.2",
+    "stripe": "^20.4.0"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.13.3",
