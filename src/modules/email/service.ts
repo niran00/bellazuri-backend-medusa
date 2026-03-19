@@ -5,17 +5,19 @@ export default class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: "localhost",
-      port: 1025,
-      secure: false,
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
     })
   }
 
   async sendPasswordReset(email: string, token: string) {
-    const resetUrl = `http://localhost:3000/za-en/reset-password?token=${token}`
+    const resetUrl = `http://15.240.44.131:3000/za-en/reset-password?token=${token}`
 
     await this.transporter.sendMail({
-      from: "store@test.com",
+      from: `"Your Store" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Reset your password",
       html: `
