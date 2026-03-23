@@ -11,7 +11,7 @@ export default async function passwordResetHandler({
   const email = event.data.entity_id
   const token = event.data.token
 
-  const resetUrl = `http://localhost:3000/za-en/reset-password?token=${token}&email=${email}`
+  const resetUrl = `http://15.240.44.131:3000/za-en/reset-password?token=${token}&email=${email}`
 
   try {
 
